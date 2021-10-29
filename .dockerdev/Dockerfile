@@ -14,15 +14,14 @@ RUN apt-get update -qq \
     curl \
     less \
     git \
-    dos2unix \
   && apt-get clean \
   && rm -rf /var/cache/apt/archives/* \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
   && truncate -s 0 /var/log/*log
 
 # set crlf in bin directory
-RUN git config --global core.autocrlf false
-RUN find ../bin -type f -exec dos2unix {} \;
+# RUN git config --global core.autocrlf false
+# RUN find ../bin -type f -exec dos2unix {} \;
 
 # Download MIME types database for mimemagic (only if you use it)
 RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
@@ -84,3 +83,8 @@ RUN gem update --system && \
 RUN mkdir -p /app
 
 WORKDIR /app
+
+COPY Gemfile /app/Gemfile
+COPY Gemfile.lock /app/Gemfile.lock
+
+RUN rails new .
