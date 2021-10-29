@@ -21,6 +21,7 @@ RUN apt-get update -qq \
   && truncate -s 0 /var/log/*log
 
 # set crlf in bin directory
+RUN git config --global core.autocrlf false
 RUN find ../bin -type f -exec dos2unix {} \;
 
 # Download MIME types database for mimemagic (only if you use it)
